@@ -33,10 +33,14 @@ public class main {
         TextConverter textConverter = new TextConverter(Constants.ALPH);
         String convertedText = textConverter.convertText(text);
         Encoder encoder = new Encoder(Constants.ALPH, 5);
-        // System.out.println(encoder.replacementAlphabetToString());
+        System.out.println(encoder.replacementAlphabetToString());
 
         String encodedText = encoder.encodeText(convertedText);
         System.out.println(encodedText);
+
+        Decoder decoder = new Decoder(Constants.ALPH, encodedText);
+        String decodedText = decoder.decodeText();
+        System.out.println(decodedText);
 
     }
 

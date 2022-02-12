@@ -8,7 +8,8 @@ public interface Constants {
             'v', 'w', 'x', 'y', 'z', ' ', '\n', '-'
     };
 
-    /* count of replaceable symbols*/
-    Integer COUNT_OF_REPLACEABLE_SYMBOLS = 26;
+    /* count of replaceable symbols*/ Integer COUNT_OF_REPLACEABLE_SYMBOLS = 26;
+
+    Character oftenAsPossibleCharacter = 'e';
 
 }
