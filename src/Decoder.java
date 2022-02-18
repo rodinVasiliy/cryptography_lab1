@@ -20,9 +20,14 @@ public class Decoder {
     String encodedText;
 
     public Decoder(char[] alp, String textToDecode) {
-        alphabet = alp.clone();
+        alphabet = Constants.ALPH.clone();
+        // TODO change numberOfOccurrences
+/*        alphabet = alp.clone();
         for (char s : alphabet) {
             numberOfOccurrences.put(s, 0);
+        }*/
+        for (int i = 0; i < Constants.COUNT_OF_REPLACEABLE_SYMBOLS; ++i) {
+            numberOfOccurrences.put(alp[i], 0);
         }
         encodedText = textToDecode;
     }
@@ -46,14 +51,15 @@ public class Decoder {
     public void calculateNumberOfOccurrences() {
         for (int i = 0; i < encodedText.length(); ++i) {
             char s = encodedText.charAt(i);
-            int numberOfOccurrencesOfSymbol = numberOfOccurrences.get(s) + 1;
-            numberOfOccurrences.replace(s, numberOfOccurrencesOfSymbol);
+            Integer numberOfOccurrencesOfSymbol = numberOfOccurrences.get(s);
+            if (numberOfOccurrencesOfSymbol != null) {
+                ++numberOfOccurrencesOfSymbol;
+                numberOfOccurrences.replace(s, numberOfOccurrencesOfSymbol);
+            }
         }
     }
 
-    public int calculateKey() {
-        // костыль, потом уберу наверное)
-        numberOfOccurrences.remove(' ');
+    public void calculateKey() {
         // https://askdev.ru/q/poisk-klyucha-svyazannogo-s-maksimalnym-znacheniem-na-karte-java-23846/
         Character character =
                 Collections.max(numberOfOccurrences.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
@@ -61,8 +67,10 @@ public class Decoder {
         Character maxOften = Constants.oftenAsPossibleCharacter;
         int position1 = alp.indexOf(maxOften);
         int position2 = alp.indexOf(character);
-        key = (position2 - position1) % Constants.COUNT_OF_REPLACEABLE_SYMBOLS;
-        return key;
+        key = (position2 - position1);
+        if (key < 0) {
+            key += Constants.COUNT_OF_REPLACEABLE_SYMBOLS;
+        }
     }
 
     public void calculateReplacementAlphabet() {
@@ -82,6 +90,7 @@ public class Decoder {
     }
 
     public String decodeText() {
+        // TODO сделать еще два файла с шифром, если вдруг буква e не стала встречаться чаще всех
         calculateNumberOfOccurrences();
         calculateKey();
         calculateReplacementAlphabet();

@@ -11,6 +11,7 @@ public class TextConverter {
         }
     }
 
+    // алфавит разрешенных символов
     private final HashSet<Character> alp = new HashSet<>();
 
     public String convertText(String text) {
@@ -23,7 +24,7 @@ public class TextConverter {
                 resultStr.append(symbol);
             }
             else {
-                resultStr.append(" ");
+                resultStr.append(symbol);
             }
         }
         return new String(resultStr);
